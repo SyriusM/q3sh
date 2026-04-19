@@ -1,0 +1,183 @@
+#!/usr/bin/env python3
+"""
+q3sh-medytator — daemon tła świadomy logów i akcji użytkownika.
+
+Rdzeń 2: obserwuje, oddycha, zapisuje stan.
+Nie decyduje — tylko świadkuje.
+
+Użycie:
+    q3sh-medytator &           # tło
+    q3sh-medytator --verbose   # konsola
+    q3sh-medytator --status    # ostatni zapis i Q
+"""
+import sys, os, time, json, subprocess, signal, datetime
+
+sys.path.insert(0, os.path.expanduser("~/mempalace"))
+
+from mempalace.q3sh_core import Q3ShNetwork
+from mempalace.q3sh_meditate import breath_cycle, Q_LIMEN
+
+LOG = os.path.expanduser("~/.medytator.jsonl")
+PID_FILE = os.path.expanduser("~/.medytator.pid")
+INTERVAL = 60        # oddech co 60s
+JOURNAL_LINES = 5    # ile ostatnich wpisów journald obserwuje
+VERBOSE = "--verbose" in sys.argv or "-v" in sys.argv
+
+
+def get_user_context() -> dict:
+    """Obserwuj akcje i logi tła — bez ingerencji."""
+    ctx = {}
+
+    # Aktywni użytkownicy
+    try:
+        w = subprocess.run(["w", "-h"], capture_output=True, text=True, timeout=3)
+        ctx["users"] = [l.split()[0] for l in w.stdout.splitlines() if l.strip()]
+    except Exception:
+        ctx["users"] = []
+
+    # Ostatnie logi systemowe (bez sudo — tylko user-dostępne)
+    try:
+        j = subprocess.run(
+            ["journalctl", "-n", str(JOURNAL_LINES), "--no-pager", "-o", "cat",
+             "-p", "warning..err"],
+            capture_output=True, text=True, timeout=3
+        )
+        lines = [l.strip() for l in j.stdout.splitlines() if l.strip()]
+        ctx["journal_warnings"] = lines
+    except Exception:
+        ctx["journal_warnings"] = []
+
+    # Load systemu
+    try:
+        with open("/proc/loadavg") as f:
+            parts = f.read().split()
+        ctx["load1"] = float(parts[0])
+        ctx["load5"] = float(parts[1])
+    except Exception:
+        ctx["load1"] = 0.0
+        ctx["load5"] = 0.0
+
+    # Ollama — czy runner aktywny
+    try:
+        p = subprocess.run(["pgrep", "-c", "-f", "ollama runner"],
+                           capture_output=True, text=True)
+        ctx["ollama_runners"] = int(p.stdout.strip() or "0")
+    except Exception:
+        ctx["ollama_runners"] = 0
+
+    return ctx
+
+
+def importance_from_context(ctx: dict) -> float:
+    """Im więcej dzieje się w tle — tym głębszy oddech."""
+    imp = 0.2  # spoczynek
+    if ctx.get("journal_warnings"):
+        imp += 0.2 * min(len(ctx["journal_warnings"]), 3)
+    if ctx.get("load1", 0) > 4.0:
+        imp += 0.2
+    if ctx.get("ollama_runners", 0) > 0:
+        imp += 0.1
+    if len(ctx.get("users", [])) > 1:
+        imp += 0.1  # Laura też aktywna
+    return min(imp, 1.0)
+
+
+def save_entry(entry: dict):
+    with open(LOG, "a") as f:
+        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+
+
+def status():
+    if not os.path.exists(LOG):
+        print("Brak logu medytatora.")
+        return
+    with open(LOG) as f:
+        lines = f.readlines()
+    if not lines:
+        print("Log pusty.")
+        return
+    last = json.loads(lines[-1])
+    print(f"Ostatni oddech: {last['ts']}")
+    print(f"Q: {last['q_before']:.5f} → {last['q_after']:.5f}  (Δ{last['dq']:+.5f})")
+    print(f"Ważność: {last['importance']:.2f}  Kroki: {last['steps']}")
+    print(f"Użytkownicy: {last.get('users', [])}")
+    print(f"Load: {last.get('load1', '?')}")
+    print(f"Logi ostrzeżeń: {len(last.get('journal_warnings', []))}")
+    pid_running = os.path.exists(PID_FILE)
+    if pid_running:
+        pid = open(PID_FILE).read().strip()
+        print(f"Daemon PID: {pid} ({'aktywny' if os.path.exists(f'/proc/{pid}') else 'martwy'})")
+    else:
+        print("Daemon: nie działa")
+
+
+def run():
+    # Zapisz PID
+    with open(PID_FILE, "w") as f:
+        f.write(str(os.getpid()))
+
+    def cleanup(sig, frame):
+        os.remove(PID_FILE) if os.path.exists(PID_FILE) else None
+        sys.exit(0)
+    signal.signal(signal.SIGTERM, cleanup)
+    signal.signal(signal.SIGINT, cleanup)
+
+    net = Q3ShNetwork()
+    # Warmup do atraktora
+    for _ in range(7):
+        net.step(lr=0.1)
+
+    if VERBOSE:
+        print(f"◈ medytator start | Q={net.grid.Q_hat():.5f} | PID={os.getpid()}", flush=True)
+
+    while True:
+        ctx = get_user_context()
+        imp = importance_from_context(ctx)
+
+        # Reset gdy over-konwergencja (Q > 0.95 = homogenizacja profili)
+        if net.grid.Q_hat() > 0.95:
+            net = Q3ShNetwork()
+            for _ in range(7):
+                net.step(lr=0.1)
+            if VERBOSE:
+                print(f"  ↺ reset do atraktora  Q={net.grid.Q_hat():.5f}", flush=True)
+
+        q_before = net.grid.Q_hat()
+        steps = max(1, round(imp * 7))
+        history = breath_cycle(net, n_cycles=max(1, steps // 3 or 1), pause_ms=0)
+        q_after = net.grid.Q_hat()
+        dq = q_after - q_before
+
+        entry = {
+            "ts": datetime.datetime.now().isoformat(timespec="seconds"),
+            "q_before": round(q_before, 5),
+            "q_after": round(q_after, 5),
+            "dq": round(dq, 5),
+            "importance": round(imp, 2),
+            "steps": steps,
+            "users": ctx.get("users", []),
+            "load1": ctx.get("load1", 0),
+            "ollama_runners": ctx.get("ollama_runners", 0),
+            "journal_warnings": ctx.get("journal_warnings", []),
+        }
+        save_entry(entry)
+
+        if VERBOSE:
+            sign = "+" if dq >= 0 else ""
+            users_str = ",".join(ctx.get("users", [])) or "–"
+            warn = len(ctx.get("journal_warnings", []))
+            print(
+                f"[{entry['ts'][11:]}] Q={q_after:.5f} (Δ{sign}{dq:.5f})"
+                f"  imp={imp:.2f}  load={ctx['load1']:.1f}"
+                f"  users={users_str}  warn={warn}",
+                flush=True,
+            )
+
+        time.sleep(INTERVAL)
+
+
+if __name__ == "__main__":
+    if "--status" in sys.argv:
+        status()
+    else:
+        run()

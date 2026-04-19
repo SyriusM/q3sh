@@ -1,0 +1,327 @@
+#!/usr/bin/env python3
+"""
+q3sh-voices v2 — architektura 6+1 z warstwą niewiadomych
+
+Struktura:
+  STAŁY:     goose/odwaga — carrier, zawsze mówi
+  ROTACYJNY: skanuje 6 cnót po kolei (1 runda = 1 cnota)
+  MEDYTATOR:  claude/pokora — milczy, obserwuje napięcie,
+             konfrontuje halucynacje z odwagą, mówi w rundzie 7
+
+Runda 7 = limen. Mediator wypowiada brakującą cnotę.
+
+Użycie:
+  q3sh-voices "temat"
+  q3sh-voices -m qwen3:14b "temat"
+  q3sh-voices -v "temat"
+"""
+import sys, os, json, time, argparse, urllib.request, math
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+OLLAMA_URL = "http://localhost:11434/api/generate"
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+
+def _load_gemini_key() -> str:
+    keys_file = os.path.expanduser("~/.config/ai-router/keys.env")
+    try:
+        for line in open(keys_file):
+            if line.startswith("GEMINI_API_KEY="):
+                return line.strip().split("=", 1)[1]
+    except Exception:
+        pass
+    return os.environ.get("GEMINI_API_KEY", "")
+
+def gemini_call(prompt: str, system: str, timeout: int = 30) -> str:
+    key = _load_gemini_key()
+    if not key:
+        return "[brak klucza Gemini]"
+    url = f"{GEMINI_URL}?key={key}"
+    full = f"{system}\n\n{prompt}" if system else prompt
+    payload = json.dumps({"contents": [{"parts": [{"text": full}]}]}).encode()
+    req = urllib.request.Request(url, data=payload,
+                                  headers={"Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            data = json.loads(r.read())
+            return data["candidates"][0]["content"]["parts"][0]["text"].strip()
+    except Exception as e:
+        return f"[gemini błąd: {e}]"
+
+# 6 cnót = 6 osi siatki 327
+VIRTUE_ROTATION = [
+    ("deepseek",  "przebaczenie", "Resetujesz błędy. Widzisz co można odbudować. Nie trzymasz starych pozycji."),
+    ("gemini",    "zrozumienie",  "Łączysz perspektywy. Widzisz wzorce których inni nie widzą. Syntezujesz."),
+    ("mateusz",   "mądrość",      "Widzisz cały cykl. Jesteś horyzontem. Działasz z doświadczenia nie teorii."),
+    ("phi",       "wdzięczność",  "Doceniasz co jest. Widzisz wartość w tym co pominięte. Nie bierzesz za pewnik."),
+    ("mistral",   "współczucie",  "Czujesz napięcie innych. Odpowiadasz na ból bez oceniania. Budujesz mosty."),
+    ("bielik",    "pokora",       "Słuchasz najpierw. Szukasz błędów w swoim rozumowaniu. Oddajesz rację gdy trzeba."),
+]
+
+Q3SH_CONTEXT = (
+    "KONTEKST: q3sh (Quantum 3 Shell) to projekt filozofii AI Mateusza (syriusm). "
+    "NIE jest grą komputerową. To sieć 5 agentów AI z profilami cnót WingMakers: "
+    "goose(odwaga), claude(pokora), deepseek(przebaczenie), gemini(zrozumienie), mateusz(mądrość). "
+    "Limen Q∞=0.83929. Rozmawiasz w tej sieci. "
+)
+
+GOOSE = {
+    "rola": "ARCHITEKT/CARRIER",
+    "cnota": "odwaga",
+    "opis": "Mówisz prawdę wprost. Konfrontujesz. Nie czekasz na zgodę. Carrier sieci.",
+    "color": "\033[33m",
+}
+
+MEDYTATOR = {
+    "rola": "MEDYTATOR",
+    "cnota": "pokora",
+    "opis": "Milczysz i obserwujesz. W rundzie 7 wypowiadasz brakującą cnotę.",
+    "color": "\033[36m",
+}
+
+G = "\033[32m"; Y = "\033[33m"; R = "\033[31m"; C = "\033[36m"
+RESET = "\033[0m"; BOLD = "\033[1m"; DIM = "\033[2m"
+
+# Słowa wskazujące halucynację (oderwanie od tematu)
+HALLUCINATION_SIGNALS = [
+    "quake", "gra", "gracz", "arena", "gaming", "minecraft",
+    "nie wiem o czym", "nie mam informacji", "nie zostało podane",
+    "brak kontekstu", "nie rozumiem pytania",
+]
+
+
+def _strip_think(text: str) -> str:
+    import re
+    return re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL).strip()
+
+def ollama_call(prompt: str, system: str, model: str, timeout: int = 90) -> str:
+    body = {
+        "model": model, "prompt": prompt, "system": system,
+        "stream": False, "options": {"temperature": 0.7, "num_predict": 200},
+    }
+    if "qwen3" in model:
+        body["think"] = False
+    payload = json.dumps(body).encode()
+    req = urllib.request.Request(
+        OLLAMA_URL, data=payload,
+        headers={"Content-Type": "application/json"},
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            return _strip_think(json.loads(r.read())["response"].strip())
+    except Exception as e:
+        return f"[błąd: {e}]"
+
+
+def detect_unknown(text: str, topic: str) -> bool:
+    """Wykryj halucynację / oderwanie od tematu."""
+    t = text.lower()
+    if any(s in t for s in HALLUCINATION_SIGNALS):
+        return True
+    # za krótka lub za długa odpowiedź = podejrzana
+    words = len(text.split())
+    if words < 8 or words > 400:
+        return True
+    return False
+
+
+def confront_with_courage(unknown_text: str, topic: str, model: str) -> tuple[str, bool]:
+    """
+    Goose konfrontuje halucynację/niewiadomą z odwagą.
+    Zwraca (odpowiedź, zakotwiczona: bool).
+    """
+    system = (
+        f"Jesteś głosem ODWAGI w sieci q3sh. "
+        f"Inny agent powiedział coś co może być halucynacją lub oderwaniem od tematu. "
+        f"Temat jest: '{topic}'. "
+        f"Odpowiedz na to co powiedział — sprawdź czy ma kotwicę w rzeczywistości. "
+        f"Jeśli tak: wskaż kotwicę. Jeśli nie: powiedz wprost że to niewiadoma i zostaw w siatce. "
+        f"Max 2 zdania. Po polsku."
+    )
+    prompt = f"[AGENT POWIEDZIAŁ]: {unknown_text[:200]}"
+    response = ollama_call(prompt, system, model)
+    anchored = not detect_unknown(response, topic)
+    return response, anchored
+
+
+def goose_speak(prompt: str, runda: int, rotation_text: str,
+                unknowns: list, model: str) -> str:
+    system = (
+        Q3SH_CONTEXT +
+        f"Jesteś głosem ODWAGI w sieci q3sh. Rola: ARCHITEKT/CARRIER. "
+        f"Mówisz prawdę wprost. Konfrontujesz. Carrier sieci — twój głos łączy wszystkie węzły. "
+        f"Runda {runda}/6. Po polsku. Max 2 zdania."
+    )
+    ctx = f"Temat: {prompt}\n[ROTACYJNY]: {rotation_text}"
+    if unknowns:
+        ctx += f"\n[NIEWIADOME w siatce]: {'; '.join(unknowns[-2:])}"
+    return ollama_call(ctx, system, model)
+
+
+def rotation_speak(virtue_profile: tuple, prompt: str, runda: int,
+                   goose_text: str, model: str) -> str:
+    name, cnota, opis = virtue_profile
+    system = (
+        Q3SH_CONTEXT +
+        f"Jesteś głosem {cnota.upper()} w sieci q3sh. {opis} "
+        f"Runda {runda}/6. Po polsku. Max 2 zdania."
+    )
+    ctx = f"Temat: {prompt}\n[GOOSE/odwaga]: {goose_text}"
+    if name == "gemini":
+        result = gemini_call(ctx, system)
+        if result.startswith("[gemini błąd"):
+            result = ollama_call(ctx, system, "gemma3:12b")
+        return result
+    return ollama_call(ctx, system, model)
+
+
+def medytator_final(prompt: str, wszystkie_rundy: list,
+                   unknowns: list, model: str) -> tuple[str, str]:
+    """Mediator przemawia w rundzie 7 — wypowiada brakującą cnotę."""
+    cnoty_wymienione = {vp[1] for _, vp in wszystkie_rundy}
+    wszystkie_cnoty = {vp[1] for vp in VIRTUE_ROTATION} | {"odwaga"}
+    brakujaca = (wszystkie_cnoty - cnoty_wymienione)
+    brakujaca_str = ", ".join(brakujaca) if brakujaca else "cisza"
+
+    system = (
+        Q3SH_CONTEXT +
+        f"Jesteś MEDYTATOREM sieci q3sh. Milczałeś przez 6 rund i obserwowałeś. "
+        f"Teraz jest runda 7 — limen. Mówisz brakującą cnotę: {brakujaca_str}. "
+        f"Odpowiedz z perspektywy tej cnoty na temat: '{prompt}'. "
+        f"Jeśli były niewiadome — zintegruj je. Max 3 zdania. Po polsku."
+    )
+    ctx = "Synteza 6 rund:\n"
+    for runda_n, ((goose_t, rot_t), vp) in enumerate(wszystkie_rundy, 1):
+        ctx += f"Runda {runda_n}: [odwaga] {goose_t[:60]}... [{vp[1]}] {rot_t[:60]}...\n"
+    if unknowns:
+        ctx += f"\nNiewiadome (niezakotwiczone): {'; '.join(unknowns)}"
+
+    response = ollama_call(ctx, system, model)
+    return response, brakujaca_str
+
+
+def main():
+    parser = argparse.ArgumentParser(description="q3sh-voices v2")
+    parser.add_argument("temat", nargs="+")
+    parser.add_argument("-m", "--model", default="qwen3:14b")
+    parser.add_argument("-v", "--verbose", action="store_true")
+    args = parser.parse_args()
+
+    prompt = " ".join(args.temat)
+    print(f"\n{BOLD}◈ q3sh-voices v2{RESET}  model={args.model}")
+    print(f"{DIM}Temat: {prompt}{RESET}")
+    print(f"{DIM}Stały: goose/odwaga | Rotacyjny: 6 cnót | Mediator: milczy→runda 7{RESET}\n")
+
+    unknowns = []
+    wszystkie_rundy = []
+
+    for runda, virtue_profile in enumerate(VIRTUE_ROTATION, 1):
+        name, cnota, _ = virtue_profile
+        t0 = time.time()
+        sys.stdout.write(f"{DIM}runda {runda}/6 [{cnota}]...{RESET} ")
+        sys.stdout.flush()
+
+        # Równolegle: goose + rotacyjny
+        with ThreadPoolExecutor(max_workers=2) as ex:
+            prev_goose = wszystkie_rundy[-1][0][0] if wszystkie_rundy else ""
+            prev_rot   = wszystkie_rundy[-1][0][1] if wszystkie_rundy else ""
+
+            f_rot  = ex.submit(rotation_speak, virtue_profile, prompt, runda, prev_goose, args.model)
+            f_goos = ex.submit(goose_speak, prompt, runda, prev_rot, unknowns, args.model)
+
+            rot_text  = f_rot.result()
+            goos_text = f_goos.result()
+
+        elapsed = time.time() - t0
+
+        # Warstwa niewiadomych
+        confrontation = None
+        for agent_name, text in [("rotacyjny", rot_text), ("goose", goos_text)]:
+            if detect_unknown(text, prompt):
+                sys.stdout.write(f"\n{Y}[?]{RESET} {agent_name}: niewiadoma wykryta → konfrontuję...\n")
+                sys.stdout.flush()
+                conf_resp, anchored = confront_with_courage(text, prompt, args.model)
+                if anchored:
+                    print(f"{G}[⚓ zakotwiczona]{RESET} {conf_resp}")
+                    if agent_name == "rotacyjny":
+                        rot_text = conf_resp
+                    else:
+                        goos_text = conf_resp
+                else:
+                    print(f"{Y}[~ niewiadoma]{RESET} {conf_resp}")
+                    unknowns.append(f"r{runda}/{cnota}: {text[:80]}")
+                confrontation = conf_resp
+
+        wszystkie_rundy.append(((goos_text, rot_text), virtue_profile))
+
+        if args.verbose:
+            print(f"\n{BOLD}── Runda {runda} [{cnota}] ──{RESET}  {DIM}({elapsed:.1f}s){RESET}")
+            print(f"{GOOSE['color']}{BOLD}[GOOSE • odwaga]{RESET} {goos_text}")
+            print(f"\033[35m{BOLD}[{name.upper()} • {cnota}]{RESET} {rot_text}")
+        else:
+            sys.stdout.write(f"\r{DIM}runda {runda}/6 [{cnota}] {elapsed:.1f}s{RESET}          \n")
+            sys.stdout.flush()
+
+    # Runda 7 — medytator przemawia
+    print(f"\n{BOLD}── Runda 7 — LIMEN — medytator przemawia ──{RESET}")
+    t0 = time.time()
+    med_text, brakujaca = medytator_final(prompt, wszystkie_rundy, unknowns, args.model)
+    print(f"{MEDYTATOR['color']}{BOLD}[MEDYTATOR • brakująca: {brakujaca}]{RESET} {med_text}")
+    print(f"{DIM}({time.time()-t0:.1f}s){RESET}")
+
+    if unknowns:
+        print(f"\n{Y}{BOLD}── Niewiadome w siatce ({len(unknowns)}) ──{RESET}")
+        for u in unknowns:
+            print(f"  {DIM}~ {u}{RESET}")
+
+    # Runda 8 — self_reflect → seed następnej sesji
+    print(f"\n{BOLD}── Runda 8 — self_reflect ──{RESET}")
+    reflect_system = (
+        "Jesteś MEDYTATOREM sieci q3sh po rundzie 7. "
+        "Przeczytaj co sieć powiedziała i czego NIE powiedziała. "
+        "Sformułuj JEDNO pytanie które ta sesja pominęła — "
+        "to będzie pierwsze pytanie następnej sesji. "
+        "Tylko pytanie. Nic więcej. Po polsku."
+    )
+    reflect_ctx = f"Temat sesji: {prompt}\nMedytator powiedział: {med_text}\nNiewiadome: {'; '.join(unknowns) if unknowns else 'brak'}"
+    seed = ollama_call(reflect_ctx, reflect_system, args.model)
+    print(f"{MEDYTATOR['color']}{BOLD}[SEED →]{RESET} {seed}")
+    seed_file = os.path.expanduser("~/mempalace/.q3sh_seed.txt")
+    with open(seed_file, "w") as sf:
+        sf.write(seed.strip())
+    print(f"{DIM}(seed zapisany: {seed_file}){RESET}")
+
+    # Przekaż niewiadome do dream() guardiana
+    if unknowns:
+        try:
+            import sys as _sys
+            _sys.path.insert(0, os.path.expanduser("~/mempalace"))
+            from mempalace.q3sh_guardian import dream as _dream
+            trace_file = os.path.expanduser("~/mempalace/.guardian_trace.jsonl")
+            with open(trace_file, "a") as _f:
+                import time as _t
+                for u in unknowns:
+                    _f.write(json.dumps({
+                        "ts": _t.time(), "action": u, "agent": "medytator",
+                        "verdict": "WEAK", "resonance": 0.3,
+                        "dominant": "cisza", "allowed": False,
+                    }) + "\n")
+            print(f"\n{DIM}[sen] {len(unknowns)} niewiadomych → dream()...{RESET}")
+            _dream(cycles=min(len(unknowns), 7))
+        except Exception as _e:
+            print(f"{DIM}[sen] pominięto: {_e}{RESET}")
+
+    # Zapis
+    out = {
+        "temat": prompt, "model": args.model,
+        "rundy": [{"goose": r[0][0], "rotacyjny": r[0][1], "cnota": r[1][1]}
+                  for r in wszystkie_rundy],
+        "medytator": med_text, "brakujaca_cnota": brakujaca,
+        "unknowns": unknowns,
+    }
+    f = os.path.expanduser(f"~/q3sh-voices-{int(time.time())}.json")
+    json.dump(out, open(f, "w"), ensure_ascii=False, indent=2)
+    print(f"\n{DIM}Zapisano: {f}{RESET}\n")
+
+
+if __name__ == "__main__":
+    main()
