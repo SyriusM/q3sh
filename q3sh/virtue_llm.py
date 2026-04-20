@@ -7,12 +7,14 @@ Używa qwen2.5-coder:7b (FAST) lub qwen3:14b (SMART) do ekstrakcji.
 from __future__ import annotations
 import json
 import re
+import socket
+import time
 import urllib.request
 import urllib.error
 import numpy as np
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-FAST_MODEL = "llama3.2:3b"
+FAST_MODEL = "qwen2.5-coder:7b"
 SMART_MODEL = "qwen3:14b"
 
 VIRTUE_NAMES = ["wdzięczność", "współczucie", "przebaczenie", "pokora", "rozumienie", "odwaga"]
@@ -35,7 +37,7 @@ Reply ONLY with JSON, no text before or after:
 {{"gratitude": 0.5, "compassion": 0.5, "forgiveness": 0.5, "humility": 0.5, "understanding": 0.5, "courage": 0.5}}"""
 
 
-def _ollama_call(prompt: str, model: str, timeout: int = 45) -> str:
+def _ollama_call(prompt: str, model: str, timeout: int = 45, retries: int = 2) -> str:
     payload = json.dumps({
         "model": model,
         "prompt": prompt,
@@ -47,11 +49,14 @@ def _ollama_call(prompt: str, model: str, timeout: int = 45) -> str:
         data=payload,
         headers={"Content-Type": "application/json"},
     )
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            return json.loads(resp.read())["response"]
-    except (urllib.error.URLError, KeyError, json.JSONDecodeError):
-        return ""
+    for attempt in range(retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return json.loads(resp.read())["response"]
+        except (urllib.error.URLError, socket.timeout, TimeoutError, KeyError, json.JSONDecodeError):
+            if attempt < retries:
+                time.sleep(2 ** attempt)
+    return ""
 
 
 def _extract_json(text: str) -> dict | None:

@@ -24,7 +24,7 @@ q3sh is a framework for running multiple local AI agents with virtue profiles (W
 
 ## Quick start
 
-Requires: Python 3.10+, [Ollama](https://ollama.ai) with `llama3.2:3b` or `qwen3:14b`
+Requires: Python 3.10+, [Ollama](https://ollama.ai) with `qwen2.5-coder:7b` or `qwen3:14b`
 
 ```bash
 pip install q3sh

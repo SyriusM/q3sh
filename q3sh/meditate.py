@@ -72,21 +72,32 @@ def breath_cycle(network: "Q3ShNetwork", n_cycles: int = 3,
     """
     history = [network.grid.Q_hat()]
 
-    alphas_in  = [0.01, 0.03, 0.05]   # wdech — delikatna propagacja
-    alphas_out = [0.05, 0.03, 0.01]   # wydech — uspokojenie
+    alphas_in  = [0.01, 0.03, 0.05]   # wdech (1) — forma
+    alphas_out = [0.05, 0.03, 0.01]   # wydech (0) — pustka
+    # pauza (3) = superpozycja między — sieć nie robi kroku, tylko obserwuje Q
 
     for _ in range(n_cycles):
-        for a in alphas_in:
+        for a in alphas_in:            # wdech
             network.step(lr=a)
             history.append(network.grid.Q_hat())
             if pause_ms:
                 time.sleep(pause_ms / 1000)
 
-        for a in alphas_out:
+        # pauza (3) — Q się nie zmienia, ale jest
+        history.append(network.grid.Q_hat())
+        if pause_ms:
+            time.sleep(pause_ms / 1000)
+
+        for a in alphas_out:           # wydech
             network.step(lr=a)
             history.append(network.grid.Q_hat())
             if pause_ms:
                 time.sleep(pause_ms / 1000)
+
+        # pauza (3) — cisza po wydechu
+        history.append(network.grid.Q_hat())
+        if pause_ms:
+            time.sleep(pause_ms / 1000)
 
     return history
 
