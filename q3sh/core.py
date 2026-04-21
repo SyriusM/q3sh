@@ -18,7 +18,7 @@ from __future__ import annotations
 import numpy as np
 from dataclasses import dataclass
 from .grid327 import Grid327, cosine
-from .q3sh_math import VirtueProfile
+from ._math import VirtueProfile
 from .virtue_llm import text_to_virtue_vector, FAST_MODEL
 
 # ═══ Profile cnót dla węzłów sieci AMDMEGA ═══════════════════════════

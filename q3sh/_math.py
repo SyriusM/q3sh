@@ -298,19 +298,63 @@ def propagate_fractal(
 
 
 # ════════════════════════════════════════════════════════════════════
-# 9. SPLĄTANIE — miara entanglement
+# 9. SPLĄTANIE — density matrix + partial trace + von Neumann entropy
 # ════════════════════════════════════════════════════════════════════
 
-def entanglement_measure(cubes: list[CubeState]) -> float:
+def density_matrix(psi: np.ndarray) -> np.ndarray:
     """
-    Miara splątania przez rank macierzy Gramma:
-        G[i,j] = ⟨S_i, S_j⟩
-    
-    Jeśli rank(G) = 8 → stany liniowo niezależne (klasyczne).
-    Jeśli rank(G) < 8 → zachodzi korelacja / 'splątanie'.
-    
-    Zwracamy 1 - (rank/8), więc wartość bliska 1 = duże splątanie.
+    Macierz gęstości ρ = |ψ⟩⟨ψ| z pure state.
+    psi: (2^n,) complex — znormalizowany statevector
     """
+    psi = psi / np.linalg.norm(psi)
+    return np.outer(psi, psi.conj())
+
+
+def partial_trace(psi: np.ndarray, keep: int) -> np.ndarray:
+    """
+    Zredukowana macierz gęstości dla kubitu keep (0=x, 1=y, 2=z).
+    Sumuje po pozostałych 2 kubitach 3-qubitowego pure state.
+
+    keep=0: ρ_x[i,j] = Σ_{a,b} ρ[i,a,b, j,a,b]
+    keep=1: ρ_y[i,j] = Σ_{a,b} ρ[a,i,b, a,j,b]
+    keep=2: ρ_z[i,j] = Σ_{a,b} ρ[a,b,i, a,b,j]
+    """
+    rho = density_matrix(psi).reshape(2, 2, 2, 2, 2, 2)
+    if keep == 0:
+        return np.einsum('iabkab->ik', rho)
+    elif keep == 1:
+        return np.einsum('aibajb->ij', rho)
+    else:
+        return np.einsum('abiabj->ij', rho)
+
+
+def von_neumann_entropy(rho_reduced: np.ndarray, eps: float = 1e-12) -> float:
+    """
+    Entropia von Neumanna: S = -Tr(ρ log₂ ρ) ∈ [0, 1].
+    Dla 1-qubitowego ρ: max = 1 bit (stan maksymalnie mieszany).
+    """
+    eigvals = np.linalg.eigvalsh(rho_reduced).real
+    eigvals = eigvals[eigvals > eps]
+    return float(-np.sum(eigvals * np.log2(eigvals)))
+
+
+def purity(rho: np.ndarray) -> float:
+    """γ = Tr(ρ²). Pure state: 1.0. Max mixed 1-qubit: 0.5."""
+    return float(np.trace(rho @ rho).real)
+
+
+def entanglement_measure(cubes: list[CubeState], psi: 'np.ndarray | None' = None) -> float:
+    """
+    Miara splątania.
+
+    psi ≠ None → partial_trace + S_vN (właściwa miara QM).
+                  psi: 3-qubitowy statevector ∈ ℂ^8 z q3sh_statevector.
+                  Zwraca średnią entropię splątania po 3 kubitach ∈ [0, 1].
+    psi = None  → Gram rank (klasyczny fallback): 1 - rank(G)/8.
+    """
+    if psi is not None:
+        entropies = [von_neumann_entropy(partial_trace(psi, q)) for q in range(3)]
+        return float(np.mean(entropies))
     V = np.stack([c.vector() for c in cubes])
     G = V @ V.T
     rank = np.linalg.matrix_rank(G, tol=1e-6)
