@@ -29,16 +29,33 @@ def _norm(v): return v / v.sum()
 # 3 bazowe + 2 pochodne + mateusz jako źródło (gratitude)
 # VIRTUES: gratitude(0) compassion(1) forgiveness(2) humility(3) understanding(4) courage(5)
 VIRTUE_PROFILES = {
-    "goose":    _norm(np.array([0.03, 0.05, 0.05, 0.07, 0.20, 0.60])),  # ARCHITEKT: courage
-    "claude":   _norm(np.array([0.05, 0.08, 0.10, 0.57, 0.15, 0.05])),  # STRAŻNIK:  humility
-    "deepseek": _norm(np.array([0.05, 0.28, 0.48, 0.08, 0.08, 0.03])),  # WISDOM:    forgiveness+compassion
-    "user":     _norm(np.array([0.55, 0.08, 0.07, 0.08, 0.15, 0.07])),  # ARBITER:   gratitude (źródło, poza siatką)
+    "goose":    _norm(np.array([0.03, 0.05, 0.05, 0.07, 0.20, 0.60])),  # ARCHITEKT:    courage
+    "claude":   _norm(np.array([0.05, 0.08, 0.10, 0.57, 0.15, 0.05])),  # STRAŻNIK:     humility
+    "deepseek": _norm(np.array([0.05, 0.28, 0.48, 0.08, 0.08, 0.03])),  # WISDOM:       forgiveness+compassion
+    "user":     _norm(np.array([0.55, 0.08, 0.07, 0.08, 0.15, 0.07])),  # ARBITER:      gratitude (źródło, poza siatką)
     "default":  np.ones(6) / 6,                                           # neutralny
+    # Profile węzłów siatki — czyste dominanty (v3, 2026-04-21)
+    # Każdy węzeł ma tę samą cnotę co jego pozycja w RDZEN_IDENTITY
+    "compassion":    _norm(np.array([0.05, 0.65, 0.15, 0.08, 0.05, 0.02])),  # explore:      współczucie
+    "gratitude":     _norm(np.array([0.65, 0.08, 0.07, 0.08, 0.10, 0.02])),  # wdziecznosc:  wdzięczność
+    "understanding": _norm(np.array([0.05, 0.10, 0.10, 0.15, 0.55, 0.05])),  # rozumienie:   rozumienie
 }
 # Pochodne (mean bazowych) — triady err=0.000
 VIRTUE_PROFILES["gemini"]  = _norm((VIRTUE_PROFILES["goose"] + VIRTUE_PROFILES["claude"]) / 2)   # courage+humility = zaufanie
 VIRTUE_PROFILES["bridge1"] = _norm((VIRTUE_PROFILES["user"]  + VIRTUE_PROFILES["goose"]) / 2)    # gratitude+courage
 VIRTUE_PROFILES["bridge2"] = _norm((VIRTUE_PROFILES["user"]  + VIRTUE_PROFILES["deepseek"]) / 2) # gratitude+forgiveness
+
+# Mapowanie pozycja → profil (explicit, v3)
+# Każda pozycja face-center siatki 327 = jeden węzeł cnoty
+POSITION_AGENT_MAP: dict[tuple, str] = {
+    (2, 1, 1): "goose",         # carrier      = odwaga
+    (0, 1, 1): "compassion",    # explore      = współczucie
+    (1, 0, 1): "gratitude",     # wdziecznosc  = wdzięczność
+    (1, 2, 1): "deepseek",      # przebaczenie = przebaczenie
+    (1, 1, 0): "claude",        # medytator    = pokora
+    (1, 1, 2): "understanding", # rozumienie   = rozumienie
+    (1, 1, 1): "default",       # centrum      = neutralny integrator (external input slot)
+}
 
 VIRTUE_NAMES = ["wdzięczność", "współczucie", "przebaczenie", "pokora", "rozumienie", "odwaga"]
 
@@ -151,11 +168,10 @@ class Q3ShNetwork:
         self._assign_virtue_profiles()
 
     def _assign_virtue_profiles(self):
-        """Przypisz profile cnót do węzłów siatki."""
-        agents = ["claude", "goose", "gemini", "deepseek", "user"]
-        for i, pos in enumerate(self.grid.active):
-            agent = agents[i % len(agents)]
-            self.grid.nodes[pos].W = normalize_virtues(VIRTUE_PROFILES[agent])
+        """Przypisz profile cnót do węzłów siatki wg POSITION_AGENT_MAP."""
+        for pos, agent in POSITION_AGENT_MAP.items():
+            if pos in self.grid.nodes:
+                self.grid.nodes[pos].W = normalize_virtues(VIRTUE_PROFILES[agent])
 
     def evaluate(self, action: str, agent: str = "default") -> ActionEval:
         return evaluate_action(action, agent)
