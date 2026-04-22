@@ -1,0 +1,54 @@
+{
+  "$schema": "./schema/needs.schema.json",
+  "source": "CNVC (Center for Nonviolent Communication) Needs Inventory",
+  "source_url": "https://www.cnvc.org/training/resource/needs-inventory",
+  "license": "© 2005 by Center for Nonviolent Communication — may be copied with credit",
+  "version": "1.0.0",
+  "schema_version": 1,
+  "languages": ["en", "pl"],
+  "structure_note": "7 root categories. Each category contains atomic needs. IDs are snake_case in English.",
+  "categories": [
+    {
+      "id": "connection",
+      "name": {"en": "Connection", "pl": "Więź / Połączenie"},
+      "needs": [
+        {"id": "acceptance", "en": "acceptance", "pl": "akceptacja"},
+        {"id": "affection", "en": "affection", "pl": "czełostć"},
+        {"id": "appreciation", "en": "appreciation", "pl": "uznanie / docenienie"},
+        {"id": "belonging", "en": "belonging", "pl": "przyprrzynaleznosc"},
+        {"id": "cooperation", "en": "cooperation", "pl": "wspolpraca"},
+        {"id": "communication", "en": "communication", "pl": "komunikacja"},
+        {"id": "closeness", "en": "closeness", "pl": "bliskosc"},
+        {"id": "community", "en": "community", "pl": "wspolnota"},
+        {"id": "companionship", "en": "companionship", "pl": "towarzystwo"},
+        {"id": "compassion", "en": "compassion", "pl": "wspolczenie"},
+        {"id": "empathy", "en": "empathy", "pl": "empatia"},
+        {"id": "love", "en": "love", "pl": "milosc"},
+        {"id": "trust", "en": "trust", "pl": "zaufanie"}
+      ]
+    },
+    {
+      "id": "autonomy",
+      "name": {"en": "Autonomy", "pl": "Autonomia"},
+      "needs": [
+        {"id": "choice", "en": "choice", "pl": "wybor"},
+        {"id": "freedom", "en": "freedom", "pl": "wolnosc"},
+        {"id": "independence", "en": "independence", "pl": "niezaleznosc"},
+        {"id": "space", "en": "space", "pl": "przestrzen"},
+        {"id": "spontaneity", "en": "spontaneity", "pl": "spontanicznosc"}
+      ]
+    },
+    {
+      "id": "meaning",
+      "name": {"en": "Meaning", "pl": "Sens / Znaczenie"},
+      "needs": [
+        {"id": "contribution", "en": "contribution", "pl": "wklad"},
+        {"id": "creativity", "en": "creativity", "pl": "kreatywnosc"},
+        {"id": "growth", "en": "growth", "pl": "rozwoj"},
+        {"id": "hope", "en": "hope", "pl": "nadziesa"},
+        {"id": "learning", "en": "learning", "pl": "uczenie sie"},
+        {"id": "purpose", "en": "purpose", "pl": "cel / sens"}
+      ]
+    }
+  ]
+}

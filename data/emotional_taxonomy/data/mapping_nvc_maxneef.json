@@ -1,0 +1,21 @@
+{
+  "description": "Cross-mapping: CNVC needs categories to Max-Neef fundamental needs.",
+  "version": "1.0.0",
+  "mappings": [
+    {
+      "cnvc_category": "connection",
+      "primary_maxneef": ["affection", "participation", "identity"],
+      "note": "Rosenberg's connection spreads across several Max-Neef needs."
+    },
+    {
+      "cnvc_category": "autonomy",
+      "primary_maxneef": ["freedom", "identity"],
+      "note": "NeaX-=direct mapping."
+    },
+    {
+      "cnvc_category": "meaning",
+      "primary_maxneef": ["understanding", "creation", "participation"],
+      "note": "Meaning covers purpose, growth, contribution."
+    }
+  ]
+}

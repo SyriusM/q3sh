@@ -1,0 +1,66 @@
+{
+  "$schema": "./schema/feelings.schema.json",
+  "source": "CNVC (Center for Nonviolent Communication) Feelings Inventory + Oren Golan's structured version",
+  "source_url": "https://www.cnvc.org/training/resource/feelings-inventory",
+  "license": "© 2005 by Center for Nonviolent Communication — may be copied with credit",
+  "version": "1.0.0",
+  "schema_version": 1,
+  "languages": ["en", "pl"],
+  "structure_note": "Each feeling has a parent_category and optional children. Hierarchy: root (met/unmet) -> category (e.g. 'afraid') -> specific feeling (e.g. 'terrified').",
+  "categories": [
+    {
+      "id": "unmet",
+      "name": {"en": "When needs are NOT satisfied", "pl": "Gdy potrzeby NIE są zaspokojone"},
+      "polarity": -1,
+      "groups": [
+        {
+          "id": "afraid",
+          "name": {"en": "Afraid", "pl": "Wystraszony/a"},
+          "feelings": [
+            {"id": "apprehensive", "en": "apprehensive", "pl": "niespokojny/a"},
+            {"id": "dread", "en": "dread", "pl": "przerażony/a (lęk)"},
+            {"id": "foreboding", "en": "foreboding", "pl": "mający złe przeczucia"},
+            {"id": "frightened", "en": "frightened", "pl": "wystraszony/a"},
+            {"id": "mistrustful", "en": "mistrustful", "pl": "nieufny/a"},
+            {"id": "panicked", "en": "panicked", "pl": "spanikowany/a"},
+            {"id": "petrified", "en": "petrified", "pl": "sparaliżowany/a strachem"},
+            {"id": "scared", "en": "scared", "pl": "przestraszony/a"},
+            {"id": "suspicious", "en": "suspicious", "pl": "podejrzliwy/a"},
+            {"id": "terrified", "en": "terrified", "pl": "przerażony/a"},
+            {"id": "wary", "en": "wary", "pl": "ostrożny/a"},
+            {"id": "worried", "en": "worried", "pl": "zmartwiony/a"}
+          ]
+        },
+        {
+          "id": "annoyed",
+          "name": {"en": "Annoyed", "pl": "Zirytowany/a"},
+          "feelings": [
+            {"id": "aggravated", "en": "aggravated", "pl": "rozdrażniony/a"},
+            {"id": "dismayed", "en": "dismayed", "pl": "zaniepokojony/a"},
+            {"id": "disgruntled", "en": "disgruntled", "pl": "niezadowolony/a"},
+            {"id": "displeased", "en": "displeased", "pl": "niezadowolony/a"},
+            {"id": "exasperated", "en": "exasperated", "pl": "doprowadzony/a do ostateczności"},
+            {"id": "frustrated", "en": "frustrated", "pl": "sfrustrowany/a"},
+            {"id": "impatient", "en": "impatient", "pl": "niecierpliwy/a"},
+            {"id": "irritated", "en": "irritated", "pl": "zirytowany/a"},
+            {"id": "irked", "en": "irked", "pl": "poirytowany/a"}
+          ]
+        },
+        {
+          "id": "angry",
+          "name": {"en": "Angry", "pl": "Zły/a"},
+          "feelings": [
+            {"id": "enraged", "en": "enraged", "pl": "rowwścieczony/a"},
+            {"id": "furious", "en": "furious", "pl": "w\fciekły/a"},
+            {"id": "incensed", "en": "incensed", "pl": "rozgniewany/a"},
+            {"id": "indignant", "en": "indignant", "pl": "oburzony/a"},
+            {"id": "irate", "en": "irate", "pl": "rozgniewany/a"},
+            {"id": "livid", "en": "livid", "pl": "siny/a ze złosci"},
+            {"id": "outraged", "en": "outraged", "pl": "oburzony/a"},
+            {"id": "resentful", "en": "resentful", "pl": "urażony/a"}
+          ]
+        }
+      ]
+    }
+  ]
+}

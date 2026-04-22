@@ -1,0 +1,98 @@
+{
+  "$schema": "./schema/maxneef.schema.json",
+  "source": "Max-Neef, M., Elizalde, A., Hopenhayn, M. — 'Human Scale Development: Conception, Application and Further Reflections' (1991)",
+  "source_url": "https://en.wikipedia.org/wiki/Manfred_Max-Neef's_Fundamental_human_needs",
+  "license": "Concept published 1991. Widely documented in academic literature. Implementation here is original.",
+  "version": "1.0.0",
+  "schema_version": 1,
+  "languages": ["en", "pl"],
+  "structure_note": "9 axiological needs × 4 existential categories = 36 matrix cells.",
+  "existential_categories": [
+    {"id": "being", "name": {"en": "Being", "pl": "Byc"}},
+    {"id": "having", "name": {"en": "Having", "pl": "Miec"}},
+    {"id": "doing", "name": {"en": "Doing", "pl": "Robic"}},
+    {"id": "interacting", "name": {"en": "Interacting", "pl": "Wspolistniec"}}
+  ],
+  "axiological_needs": [
+    {
+      "id": "subsistence",
+      "name": {"en": "Subsistence", "pl": "Utrzymanie"},
+      "matrix": {
+        "being": ["physical_health", "mental_health", "equilibrium"],
+        "having": ["food", "shelter", "work"],
+        "doing": ["feed", "rest", "work"],
+        "interacting": ["living_environment"]
+      }
+    },
+    {
+      "id": "affection",
+      "name": {"en": "Affection", "pl": "Uczucie"},
+      "matrix": {
+        "being": ["self_esteem", "solidarity", "respect"],
+        "having": ["friendships", "family", "partnerships"],
+        "doing": ["express_emotions", "share", "appreciate"],
+        "interacting": ["privacy", "togetherness"]
+      }
+    },
+    {
+      "id": "understanding",
+      "name": {"en": "Understanding", "pl": "Rozumienie"},
+      "matrix": {
+        "being": ["critical_conscience", "curiosity", "intuition"],
+        "having": ["literature", "teachers", "educational_policies"],
+        "doing": ["investigate", "study", "meditate"],
+        "interacting": ["schools", "communities", "family"]
+      }
+    },
+    {
+      "id": "participation",
+      "name": {"en": "Participation", "pl": "Uczestnictwo"},
+      "matrix": {
+        "being": ["solidarity", "dedication", "respect"],
+        "having": ["rights", "responsibilities", "work"],
+        "doing": ["cooperate", "propose", "share"],
+        "interacting": ["communities", "family"]
+      }
+    },
+    {
+      "id": "leisure",
+      "name": {"en": "Leisure", "pl": "Odpoczynek"},
+      "matrix": {
+        "being": ["curiosity", "imagination", "sense_of_humor"],
+        "having": ["games", "peace_of_mind"],
+        "doing": ["dream", "relax", "play"],
+        "interacting": ["privacy", "free_time"]
+      }
+    },
+    {
+      "id": "creation",
+      "name": {"en": "Creation", "pl": "Tworzenie"},
+      "matrix": {
+        "being": ["passion", "imagination", "autonomy"],
+        "having": ["abilities", "skills", "work"],
+        "doing": ["work", "invent", "design"],
+        "interacting": ["workshops", "spaces_for_expression"]
+      }
+    },
+    {
+      "id": "identity",
+      "name": {"en": "Identity", "pl": "Tozsamosc"},
+      "matrix": {
+        "being": ["sense_of_belonging", "self_esteem", "assertiveness"],
+        "having": ["symbols", "language", "values"],
+        "doing": ["commit_oneself", "grow"],
+        "interacting": ["social_rhythms"]
+      }
+    },
+    {
+      "id": "freedom",
+      "name": {"en": "Freedom", "pl": "Wolnosc"},
+      "matrix": {
+        "being": ["autonomy", "self_esteem", "assertiveness"],
+        "having": ["equal_rights"],
+        "doing": ["dissent", "choose", "commit_oneself"],
+        "interacting": ["temporal_plasticity"]
+      }
+    }
+  ]
+}
