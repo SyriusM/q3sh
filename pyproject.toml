@@ -19,7 +19,6 @@ dependencies = [
 ollama = []  # requires local Ollama instance
 
 [project.scripts]
-q3sh-voices = "q3sh.bin.voices:main"
 q3sh-guardian = "q3sh.guardian:main"
 
 [tool.setuptools.packages.find]
