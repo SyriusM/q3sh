@@ -4,3 +4,19 @@ __pycache__/
 dist/
 *.egg-info/
 .pytest_cache/
+
+# Dane osobiste — NIE commitować
+identity.txt
+q3sh_config.py
+*.local.py
+.env
+keys.env
+*.db
+*.sqlite
+
+# Artefakty runtime
+*.bak
+*.log
+.q3sh_bus.json
+pearl_*.jsonl
+assignments.json

@@ -50,14 +50,358 @@
           "id": "angry",
           "name": {"en": "Angry", "pl": "Zły/a"},
           "feelings": [
-            {"id": "enraged", "en": "enraged", "pl": "rowwścieczony/a"},
-            {"id": "furious", "en": "furious", "pl": "w\fciekły/a"},
+            {"id": "enraged", "en": "enraged", "pl": "rozwścieczony/a"},
+            {"id": "furious", "en": "furious", "pl": "wściekły/a"},
             {"id": "incensed", "en": "incensed", "pl": "rozgniewany/a"},
             {"id": "indignant", "en": "indignant", "pl": "oburzony/a"},
             {"id": "irate", "en": "irate", "pl": "rozgniewany/a"},
-            {"id": "livid", "en": "livid", "pl": "siny/a ze złosci"},
+            {"id": "livid", "en": "livid", "pl": "siny/a ze złości"},
             {"id": "outraged", "en": "outraged", "pl": "oburzony/a"},
             {"id": "resentful", "en": "resentful", "pl": "urażony/a"}
+          ]
+        },
+        {
+          "id": "aversion",
+          "name": {"en": "Aversion", "pl": "Niechęć"},
+          "feelings": [
+            {"id": "animosity", "en": "animosity", "pl": "niechęć/wrogość"},
+            {"id": "appalled", "en": "appalled", "pl": "zbulwersowany/a"},
+            {"id": "contempt", "en": "contempt", "pl": "pogarda"},
+            {"id": "disgusted", "en": "disgusted", "pl": "zniesmaczony/a"},
+            {"id": "dislike", "en": "dislike", "pl": "niechęć"},
+            {"id": "hate", "en": "hate", "pl": "nienawiść"},
+            {"id": "horrified", "en": "horrified", "pl": "przerażony/a"},
+            {"id": "hostile", "en": "hostile", "pl": "wrogi/a"},
+            {"id": "repulsed", "en": "repulsed", "pl": "odpychający/a"}
+          ]
+        },
+        {
+          "id": "confused",
+          "name": {"en": "Confused", "pl": "Zdezorientowany/a"},
+          "feelings": [
+            {"id": "ambivalent", "en": "ambivalent", "pl": "ambiwalentny/a"},
+            {"id": "baffled", "en": "baffled", "pl": "zdumiony/a"},
+            {"id": "bewildered", "en": "bewildered", "pl": "oszołomiony/a"},
+            {"id": "dazed", "en": "dazed", "pl": "ogłupiały/a"},
+            {"id": "hesitant", "en": "hesitant", "pl": "niezdecydowany/a"},
+            {"id": "lost", "en": "lost", "pl": "zagubiony/a"},
+            {"id": "mystified", "en": "mystified", "pl": "zbity/a z tropu"},
+            {"id": "perplexed", "en": "perplexed", "pl": "zaskoczony/a"},
+            {"id": "puzzled", "en": "puzzled", "pl": "zdziwiony/a"},
+            {"id": "torn", "en": "torn", "pl": "rozdarty/a"}
+          ]
+        },
+        {
+          "id": "disconnected",
+          "name": {"en": "Disconnected", "pl": "Odłączony/a"},
+          "feelings": [
+            {"id": "alienated", "en": "alienated", "pl": "wyobcowany/a"},
+            {"id": "aloof", "en": "aloof", "pl": "zdystansowany/a"},
+            {"id": "apathetic", "en": "apathetic", "pl": "apatyczny/a"},
+            {"id": "bored", "en": "bored", "pl": "znudzony/a"},
+            {"id": "cold", "en": "cold", "pl": "chłodny/a"},
+            {"id": "detached", "en": "detached", "pl": "oderwany/a"},
+            {"id": "distant", "en": "distant", "pl": "odległy/a"},
+            {"id": "distracted", "en": "distracted", "pl": "rozproszony/a"},
+            {"id": "indifferent", "en": "indifferent", "pl": "obojętny/a"},
+            {"id": "numb", "en": "numb", "pl": "otępiały/a"},
+            {"id": "removed", "en": "removed", "pl": "oddzielony/a"},
+            {"id": "uninterested", "en": "uninterested", "pl": "niezainteresowany/a"},
+            {"id": "withdrawn", "en": "withdrawn", "pl": "wycofany/a"}
+          ]
+        },
+        {
+          "id": "disquiet",
+          "name": {"en": "Disquiet", "pl": "Niepokój"},
+          "feelings": [
+            {"id": "agitated", "en": "agitated", "pl": "poruszony/a"},
+            {"id": "alarmed", "en": "alarmed", "pl": "zaalarmowany/a"},
+            {"id": "discombobulated", "en": "discombobulated", "pl": "zdezorganizowany/a"},
+            {"id": "disconcerted", "en": "disconcerted", "pl": "zakłopotany/a"},
+            {"id": "disturbed", "en": "disturbed", "pl": "zaniepokojony/a"},
+            {"id": "perturbed", "en": "perturbed", "pl": "wzburzony/a"},
+            {"id": "rattled", "en": "rattled", "pl": "roztrzęsiony/a"},
+            {"id": "restless", "en": "restless", "pl": "niespokojny/a"},
+            {"id": "shocked", "en": "shocked", "pl": "zszokowany/a"},
+            {"id": "startled", "en": "startled", "pl": "przestraszony/a"},
+            {"id": "surprised", "en": "surprised", "pl": "zaskoczony/a"},
+            {"id": "troubled", "en": "troubled", "pl": "zmartwiony/a"},
+            {"id": "turbulent", "en": "turbulent", "pl": "burzliwy/a"},
+            {"id": "turmoil", "en": "turmoil", "pl": "wzburzenie"},
+            {"id": "uncomfortable", "en": "uncomfortable", "pl": "niekomfortowy/a"},
+            {"id": "uneasy", "en": "uneasy", "pl": "nieswój/a"},
+            {"id": "unnerved", "en": "unnerved", "pl": "wytrącony/a z równowagi"},
+            {"id": "unsettled", "en": "unsettled", "pl": "niestabilny/a"},
+            {"id": "upset", "en": "upset", "pl": "zdenerwowany/a"}
+          ]
+        },
+        {
+          "id": "embarrassed",
+          "name": {"en": "Embarrassed", "pl": "Zawstydzony/a"},
+          "feelings": [
+            {"id": "ashamed", "en": "ashamed", "pl": "zawstydzony/a"},
+            {"id": "chagrined", "en": "chagrined", "pl": "zasmucony/a (z urazy)"},
+            {"id": "flustered", "en": "flustered", "pl": "zmieszany/a"},
+            {"id": "guilty", "en": "guilty", "pl": "winny/a"},
+            {"id": "mortified", "en": "mortified", "pl": "upokorzony/a"},
+            {"id": "self-conscious", "en": "self-conscious", "pl": "skrępowany/a"}
+          ]
+        },
+        {
+          "id": "fatigue",
+          "name": {"en": "Fatigue", "pl": "Zmęczenie"},
+          "feelings": [
+            {"id": "beat", "en": "beat", "pl": "wykończony/a"},
+            {"id": "burnt_out", "en": "burnt out", "pl": "wypalony/a"},
+            {"id": "depleted", "en": "depleted", "pl": "wyczerpany/a"},
+            {"id": "exhausted", "en": "exhausted", "pl": "wyczerpany/a"},
+            {"id": "lethargic", "en": "lethargic", "pl": "ospały/a"},
+            {"id": "listless", "en": "listless", "pl": "apatyczny/a"},
+            {"id": "sleepy", "en": "sleepy", "pl": "śpiący/a"},
+            {"id": "tired", "en": "tired", "pl": "zmęczony/a"},
+            {"id": "weary", "en": "weary", "pl": "znużony/a"},
+            {"id": "worn_out", "en": "worn out", "pl": "wycieńczony/a"}
+          ]
+        },
+        {
+          "id": "pain",
+          "name": {"en": "Pain", "pl": "Ból"},
+          "feelings": [
+            {"id": "agony", "en": "agony", "pl": "agonia"},
+            {"id": "anguished", "en": "anguished", "pl": "udręczony/a"},
+            {"id": "bereaved", "en": "bereaved", "pl": "osierocony/a"},
+            {"id": "devastated", "en": "devastated", "pl": "zdruzgotany/a"},
+            {"id": "grief", "en": "grief", "pl": "żal"},
+            {"id": "heartbroken", "en": "heartbroken", "pl": "ze złamanym sercem"},
+            {"id": "hurt", "en": "hurt", "pl": "zraniony/a"},
+            {"id": "lonely", "en": "lonely", "pl": "samotny/a"},
+            {"id": "miserable", "en": "miserable", "pl": "nieszczęśliwy/a"},
+            {"id": "regretful", "en": "regretful", "pl": "pełen/na żalu"},
+            {"id": "remorseful", "en": "remorseful", "pl": "skruszony/a"}
+          ]
+        },
+        {
+          "id": "sad",
+          "name": {"en": "Sad", "pl": "Smutny/a"},
+          "feelings": [
+            {"id": "depressed", "en": "depressed", "pl": "przygnębiony/a"},
+            {"id": "dejected", "en": "dejected", "pl": "zrezygnowany/a"},
+            {"id": "despair", "en": "despair", "pl": "rozpacz"},
+            {"id": "despondent", "en": "despondent", "pl": "zdruzgotany/a"},
+            {"id": "disappointed", "en": "disappointed", "pl": "rozczarowany/a"},
+            {"id": "discouraged", "en": "discouraged", "pl": "zniechęcony/a"},
+            {"id": "disheartened", "en": "disheartened", "pl": "zniechęcony/a"},
+            {"id": "forlorn", "en": "forlorn", "pl": "opuszczony/a"},
+            {"id": "gloomy", "en": "gloomy", "pl": "posępny/a"},
+            {"id": "heavy_hearted", "en": "heavy hearted", "pl": "z ciężkim sercem"},
+            {"id": "hopeless", "en": "hopeless", "pl": "bez nadziei"},
+            {"id": "melancholy", "en": "melancholy", "pl": "melancholijny/a"},
+            {"id": "unhappy", "en": "unhappy", "pl": "nieszczęśliwy/a"},
+            {"id": "wretched", "en": "wretched", "pl": "nędzny/a"}
+          ]
+        },
+        {
+          "id": "tense",
+          "name": {"en": "Tense", "pl": "Napięty/a"},
+          "feelings": [
+            {"id": "anxious", "en": "anxious", "pl": "lękliwy/a"},
+            {"id": "cranky", "en": "cranky", "pl": "marudny/a"},
+            {"id": "distressed", "en": "distressed", "pl": "zestresowany/a"},
+            {"id": "distraught", "en": "distraught", "pl": "zrozpaczony/a"},
+            {"id": "edgy", "en": "edgy", "pl": "nerwowy/a"},
+            {"id": "fidgety", "en": "fidgety", "pl": "niespokojny/a"},
+            {"id": "frazzled", "en": "frazzled", "pl": "wyczerpany/a"},
+            {"id": "irritable", "en": "irritable", "pl": "drażliwy/a"},
+            {"id": "jittery", "en": "jittery", "pl": "roztrzęsiony/a"},
+            {"id": "nervous", "en": "nervous", "pl": "zdenerwowany/a"},
+            {"id": "overwhelmed", "en": "overwhelmed", "pl": "przytłoczony/a"},
+            {"id": "restless", "en": "restless", "pl": "niespokojny/a"},
+            {"id": "stressed_out", "en": "stressed out", "pl": "zestresowany/a"}
+          ]
+        },
+        {
+          "id": "vulnerable",
+          "name": {"en": "Vulnerable", "pl": "Wrażliwy/a / Bezbronny/a"},
+          "feelings": [
+            {"id": "fragile", "en": "fragile", "pl": "kruchy/a"},
+            {"id": "guarded", "en": "guarded", "pl": "zamknięty/a"},
+            {"id": "helpless", "en": "helpless", "pl": "bezradny/a"},
+            {"id": "insecure", "en": "insecure", "pl": "niepewny/a siebie"},
+            {"id": "leery", "en": "leery", "pl": "podejrzliwy/a"},
+            {"id": "reserved", "en": "reserved", "pl": "powściągliwy/a"},
+            {"id": "sensitive", "en": "sensitive", "pl": "wrażliwy/a"},
+            {"id": "shaky", "en": "shaky", "pl": "drżący/a"}
+          ]
+        },
+        {
+          "id": "yearning",
+          "name": {"en": "Yearning", "pl": "Tęsknota"},
+          "feelings": [
+            {"id": "envious", "en": "envious", "pl": "zazdrosny/a"},
+            {"id": "jealous", "en": "jealous", "pl": "zazdrosny/a"},
+            {"id": "longing", "en": "longing", "pl": "tęskniący/a"},
+            {"id": "nostalgic", "en": "nostalgic", "pl": "nostalgiczny/a"},
+            {"id": "pining", "en": "pining", "pl": "usychający/a z tęsknoty"},
+            {"id": "wistful", "en": "wistful", "pl": "zadumany/a"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "met",
+      "name": {"en": "When needs ARE satisfied", "pl": "Gdy potrzeby SĄ zaspokojone"},
+      "polarity": 1,
+      "groups": [
+        {
+          "id": "affectionate",
+          "name": {"en": "Affectionate", "pl": "Czuły/a"},
+          "feelings": [
+            {"id": "compassionate", "en": "compassionate", "pl": "współczujący/a"},
+            {"id": "friendly", "en": "friendly", "pl": "przyjazny/a"},
+            {"id": "loving", "en": "loving", "pl": "kochający/a"},
+            {"id": "open_hearted", "en": "open hearted", "pl": "z otwartym sercem"},
+            {"id": "sympathetic", "en": "sympathetic", "pl": "współczujący/a"},
+            {"id": "tender", "en": "tender", "pl": "czuły/a"},
+            {"id": "warm", "en": "warm", "pl": "ciepły/a"}
+          ]
+        },
+        {
+          "id": "engaged",
+          "name": {"en": "Engaged", "pl": "Zaangażowany/a"},
+          "feelings": [
+            {"id": "absorbed", "en": "absorbed", "pl": "pochłonięty/a"},
+            {"id": "alert", "en": "alert", "pl": "czujny/a"},
+            {"id": "curious", "en": "curious", "pl": "ciekawy/a"},
+            {"id": "engrossed", "en": "engrossed", "pl": "pochłonięty/a"},
+            {"id": "enchanted", "en": "enchanted", "pl": "zauroczony/a"},
+            {"id": "entranced", "en": "entranced", "pl": "oczarowany/a"},
+            {"id": "fascinated", "en": "fascinated", "pl": "zafascynowany/a"},
+            {"id": "interested", "en": "interested", "pl": "zainteresowany/a"},
+            {"id": "intrigued", "en": "intrigued", "pl": "zaintrygowany/a"},
+            {"id": "involved", "en": "involved", "pl": "zaangażowany/a"},
+            {"id": "spellbound", "en": "spellbound", "pl": "zauroczony/a"},
+            {"id": "stimulated", "en": "stimulated", "pl": "pobudzony/a"}
+          ]
+        },
+        {
+          "id": "hopeful",
+          "name": {"en": "Hopeful", "pl": "Pełen/na nadziei"},
+          "feelings": [
+            {"id": "expectant", "en": "expectant", "pl": "wyczekujący/a"},
+            {"id": "encouraged", "en": "encouraged", "pl": "ośmielony/a"},
+            {"id": "optimistic", "en": "optimistic", "pl": "optymistyczny/a"}
+          ]
+        },
+        {
+          "id": "confident",
+          "name": {"en": "Confident", "pl": "Pewny/a siebie"},
+          "feelings": [
+            {"id": "empowered", "en": "empowered", "pl": "wzmocniony/a"},
+            {"id": "open", "en": "open", "pl": "otwarty/a"},
+            {"id": "proud", "en": "proud", "pl": "dumny/a"},
+            {"id": "safe", "en": "safe", "pl": "bezpieczny/a"},
+            {"id": "secure", "en": "secure", "pl": "bezpieczny/a"}
+          ]
+        },
+        {
+          "id": "excited",
+          "name": {"en": "Excited", "pl": "Podekscytowany/a"},
+          "feelings": [
+            {"id": "amazed", "en": "amazed", "pl": "zdumiony/a"},
+            {"id": "animated", "en": "animated", "pl": "ożywiony/a"},
+            {"id": "ardent", "en": "ardent", "pl": "żarliwy/a"},
+            {"id": "aroused", "en": "aroused", "pl": "pobudzony/a"},
+            {"id": "astonished", "en": "astonished", "pl": "zdumiony/a"},
+            {"id": "dazzled", "en": "dazzled", "pl": "olśniony/a"},
+            {"id": "eager", "en": "eager", "pl": "chętny/a"},
+            {"id": "energetic", "en": "energetic", "pl": "energiczny/a"},
+            {"id": "enthusiastic", "en": "enthusiastic", "pl": "entuzjastyczny/a"},
+            {"id": "giddy", "en": "giddy", "pl": "oszołomiony/a radością"},
+            {"id": "invigorated", "en": "invigorated", "pl": "orzeźwiony/a"},
+            {"id": "lively", "en": "lively", "pl": "żywy/a"},
+            {"id": "passionate", "en": "passionate", "pl": "namiętny/a"},
+            {"id": "surprised", "en": "surprised", "pl": "zaskoczony/a"},
+            {"id": "vibrant", "en": "vibrant", "pl": "pełen/na życia"}
+          ]
+        },
+        {
+          "id": "grateful",
+          "name": {"en": "Grateful", "pl": "Wdzięczny/a"},
+          "feelings": [
+            {"id": "appreciative", "en": "appreciative", "pl": "doceniający/a"},
+            {"id": "moved", "en": "moved", "pl": "wzruszony/a"},
+            {"id": "thankful", "en": "thankful", "pl": "wdzięczny/a"},
+            {"id": "touched", "en": "touched", "pl": "poruszony/a"}
+          ]
+        },
+        {
+          "id": "inspired",
+          "name": {"en": "Inspired", "pl": "Natchniony/a"},
+          "feelings": [
+            {"id": "amazed", "en": "amazed", "pl": "zdumiony/a"},
+            {"id": "awed", "en": "awed", "pl": "pełen/na zachwytu"},
+            {"id": "wonder", "en": "wonder", "pl": "zdumiony/a"}
+          ]
+        },
+        {
+          "id": "joyful",
+          "name": {"en": "Joyful", "pl": "Radosny/a"},
+          "feelings": [
+            {"id": "amused", "en": "amused", "pl": "rozbawiony/a"},
+            {"id": "delighted", "en": "delighted", "pl": "zachwycony/a"},
+            {"id": "glad", "en": "glad", "pl": "zadowolony/a"},
+            {"id": "happy", "en": "happy", "pl": "szczęśliwy/a"},
+            {"id": "jubilant", "en": "jubilant", "pl": "radosny/a"},
+            {"id": "pleased", "en": "pleased", "pl": "zadowolony/a"},
+            {"id": "tickled", "en": "tickled", "pl": "ubawiony/a"}
+          ]
+        },
+        {
+          "id": "exhilarated",
+          "name": {"en": "Exhilarated", "pl": "Rozentuzjazmowany/a"},
+          "feelings": [
+            {"id": "blissful", "en": "blissful", "pl": "błogi/a"},
+            {"id": "ecstatic", "en": "ecstatic", "pl": "w ekstazie"},
+            {"id": "elated", "en": "elated", "pl": "rozradowany/a"},
+            {"id": "enthralled", "en": "enthralled", "pl": "zafascynowany/a"},
+            {"id": "exuberant", "en": "exuberant", "pl": "tryskający/a entuzjazmem"},
+            {"id": "radiant", "en": "radiant", "pl": "promieniejący/a"},
+            {"id": "rapturous", "en": "rapturous", "pl": "zachwycony/a"},
+            {"id": "thrilled", "en": "thrilled", "pl": "podekscytowany/a"}
+          ]
+        },
+        {
+          "id": "peaceful",
+          "name": {"en": "Peaceful", "pl": "Spokojny/a"},
+          "feelings": [
+            {"id": "calm", "en": "calm", "pl": "spokojny/a"},
+            {"id": "clear_headed", "en": "clear headed", "pl": "trzeźwo myślący/a"},
+            {"id": "comfortable", "en": "comfortable", "pl": "komfortowy/a"},
+            {"id": "centered", "en": "centered", "pl": "wycentrowany/a"},
+            {"id": "content", "en": "content", "pl": "zadowolony/a"},
+            {"id": "equanimous", "en": "equanimous", "pl": "zrównoważony/a"},
+            {"id": "fulfilled", "en": "fulfilled", "pl": "spełniony/a"},
+            {"id": "mellow", "en": "mellow", "pl": "złagodniały/a"},
+            {"id": "quiet", "en": "quiet", "pl": "cichy/a"},
+            {"id": "relaxed", "en": "relaxed", "pl": "zrelaksowany/a"},
+            {"id": "relieved", "en": "relieved", "pl": "z ulgą"},
+            {"id": "satisfied", "en": "satisfied", "pl": "usatysfakcjonowany/a"},
+            {"id": "serene", "en": "serene", "pl": "pogodny/a"},
+            {"id": "still", "en": "still", "pl": "nieruchomy/a / w ciszy"},
+            {"id": "tranquil", "en": "tranquil", "pl": "spokojny/a"},
+            {"id": "trusting", "en": "trusting", "pl": "ufny/a"}
+          ]
+        },
+        {
+          "id": "refreshed",
+          "name": {"en": "Refreshed", "pl": "Odświeżony/a"},
+          "feelings": [
+            {"id": "enlivened", "en": "enlivened", "pl": "ożywiony/a"},
+            {"id": "rejuvenated", "en": "rejuvenated", "pl": "odmłodzony/a"},
+            {"id": "renewed", "en": "renewed", "pl": "odnowiony/a"},
+            {"id": "rested", "en": "rested", "pl": "wypoczęty/a"},
+            {"id": "restored", "en": "restored", "pl": "zregenerowany/a"},
+            {"id": "revived", "en": "revived", "pl": "ożywiony/a"}
           ]
         }
       ]

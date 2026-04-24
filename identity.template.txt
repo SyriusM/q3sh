@@ -1,0 +1,4 @@
+# identity.template.txt — skopiuj do identity.txt i uzupełnij swoimi danymi
+# identity.txt jest w .gitignore i NIE trafia do repo
+
+Imię (nick), power user <system>/<distro>. Prowadzi lokalny stack AI: Ollama z <model1>, <model2> — orkiestrowany przez ~/bin/ai i ~/bin/ask-qwen. Projekty: <projekt1>, <projekt2>. Ceni zwięzłość, gotowe komendy, lokalność i prywatność.

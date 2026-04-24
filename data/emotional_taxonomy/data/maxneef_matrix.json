@@ -6,92 +6,109 @@
   "version": "1.0.0",
   "schema_version": 1,
   "languages": ["en", "pl"],
-  "structure_note": "9 axiological needs × 4 existential categories = 36 matrix cells.",
+  "structure_note": "9 axiological needs × 4 existential categories = 36 matrix cells. Each cell contains example satisfiers. NON-HIERARCHICAL by design (Max-Neef's explicit rejection of Maslow's hierarchy).",
+  "meta": {
+    "principle": "fundamental_needs_are_finite_few_classifiable",
+    "invariance": "same_across_cultures_and_historical_periods",
+    "variation": "satisfiers_change_across_cultures_and_time",
+    "dynamics": ["simultaneities", "complementarities", "trade-offs"],
+    "satisfier_types": ["violator", "pseudo_satisfier", "inhibiting_satisfier", "singular_satisfier", "synergic_satisfier"]
+  },
   "existential_categories": [
-    {"id": "being", "name": {"en": "Being", "pl": "Byc"}},
-    {"id": "having", "name": {"en": "Having", "pl": "Miec"}},
-    {"id": "doing", "name": {"en": "Doing", "pl": "Robic"}},
-    {"id": "interacting", "name": {"en": "Interacting", "pl": "Wspolistniec"}}
+    {"id": "being", "name": {"en": "Being", "pl": "Być"}, "describes": "attributes, qualities (nouns)"},
+    {"id": "having", "name": {"en": "Having", "pl": "Mieć"}, "describes": "institutions, norms, tools (non-material)"},
+    {"id": "doing", "name": {"en": "Doing", "pl": "Robić"}, "describes": "actions (verbs)"},
+    {"id": "interacting", "name": {"en": "Interacting", "pl": "Współistnieć"}, "describes": "locations, environments, times"}
   ],
   "axiological_needs": [
     {
       "id": "subsistence",
-      "name": {"en": "Subsistence", "pl": "Utrzymanie"},
+      "name": {"en": "Subsistence", "pl": "Utrzymanie / Przetrwanie"},
       "matrix": {
-        "being": ["physical_health", "mental_health", "equilibrium"],
+        "being": ["physical_health", "mental_health", "equilibrium", "sense_of_humor", "adaptability"],
         "having": ["food", "shelter", "work"],
-        "doing": ["feed", "rest", "work"],
-        "interacting": ["living_environment"]
+        "doing": ["feed", "procreate", "rest", "work"],
+        "interacting": ["living_environment", "social_setting"]
+      }
+    },
+    {
+      "id": "protection",
+      "name": {"en": "Protection", "pl": "Ochrona"},
+      "matrix": {
+        "being": ["care", "adaptability", "autonomy", "equilibrium", "solidarity"],
+        "having": ["insurance_systems", "savings", "social_security", "health_systems", "rights", "family", "work"],
+        "doing": ["cooperate", "prevent", "plan", "take_care_of", "cure", "help"],
+        "interacting": ["living_space", "social_environment", "dwelling"]
       }
     },
     {
       "id": "affection",
-      "name": {"en": "Affection", "pl": "Uczucie"},
+      "name": {"en": "Affection", "pl": "Uczucie / Więź"},
       "matrix": {
-        "being": ["self_esteem", "solidarity", "respect"],
-        "having": ["friendships", "family", "partnerships"],
-        "doing": ["express_emotions", "share", "appreciate"],
-        "interacting": ["privacy", "togetherness"]
+        "being": ["self_esteem", "solidarity", "respect", "tolerance", "generosity", "receptiveness", "passion", "determination", "sensuality", "sense_of_humor"],
+        "having": ["friendships", "family", "partnerships", "relationships_with_nature"],
+        "doing": ["make_love", "caress", "express_emotions", "share", "take_care_of", "cultivate", "appreciate"],
+        "interacting": ["privacy", "intimacy_space", "togetherness", "places_of_closeness"]
       }
     },
     {
       "id": "understanding",
       "name": {"en": "Understanding", "pl": "Rozumienie"},
       "matrix": {
-        "being": ["critical_conscience", "curiosity", "intuition"],
-        "having": ["literature", "teachers", "educational_policies"],
-        "doing": ["investigate", "study", "meditate"],
-        "interacting": ["schools", "communities", "family"]
+        "being": ["critical_conscience", "receptiveness", "curiosity", "astonishment", "discipline", "intuition", "rationality"],
+        "having": ["literature", "teachers", "method", "educational_policies", "communicational_policies"],
+        "doing": ["investigate", "study", "experiment", "educate", "analyze", "meditate", "interpret"],
+        "interacting": ["settings_of_formative_interaction", "schools", "universities", "academies", "groups", "communities", "family"]
       }
     },
     {
       "id": "participation",
       "name": {"en": "Participation", "pl": "Uczestnictwo"},
       "matrix": {
-        "being": ["solidarity", "dedication", "respect"],
-        "having": ["rights", "responsibilities", "work"],
-        "doing": ["cooperate", "propose", "share"],
-        "interacting": ["communities", "family"]
+        "being": ["adaptability", "receptiveness", "solidarity", "willingness", "determination", "dedication", "respect", "passion", "sense_of_humor"],
+        "having": ["rights", "responsibilities", "duties", "privileges", "work"],
+        "doing": ["become_affiliated", "cooperate", "propose", "share", "dissent", "obey", "interact", "agree", "express_opinions"],
+        "interacting": ["settings_of_participative_interaction", "parties", "associations", "churches", "communities", "neighborhoods", "family"]
       }
     },
     {
       "id": "leisure",
-      "name": {"en": "Leisure", "pl": "Odpoczynek"},
+      "name": {"en": "Leisure / Idleness", "pl": "Odpoczynek / Bezczynność"},
       "matrix": {
-        "being": ["curiosity", "imagination", "sense_of_humor"],
-        "having": ["games", "peace_of_mind"],
-        "doing": ["dream", "relax", "play"],
-        "interacting": ["privacy", "free_time"]
+        "being": ["curiosity", "receptiveness", "imagination", "recklessness", "sense_of_humor", "tranquility", "sensuality"],
+        "having": ["games", "spectacles", "clubs", "parties", "peace_of_mind"],
+        "doing": ["day_dream", "brood", "dream", "recall_old_times", "give_way_to_fantasies", "remember", "relax", "have_fun", "play"],
+        "interacting": ["privacy", "intimacy_spaces_of_closeness", "free_time", "surroundings", "landscapes"]
       }
     },
     {
       "id": "creation",
       "name": {"en": "Creation", "pl": "Tworzenie"},
       "matrix": {
-        "being": ["passion", "imagination", "autonomy"],
-        "having": ["abilities", "skills", "work"],
-        "doing": ["work", "invent", "design"],
-        "interacting": ["workshops", "spaces_for_expression"]
+        "being": ["passion", "determination", "intuition", "imagination", "boldness", "rationality", "autonomy", "inventiveness", "curiosity"],
+        "having": ["abilities", "skills", "method", "work"],
+        "doing": ["work", "invent", "build", "design", "compose", "interpret"],
+        "interacting": ["productive_and_feedback_settings", "workshops", "cultural_groups", "audiences", "spaces_for_expression", "temporal_freedom"]
       }
     },
     {
       "id": "identity",
-      "name": {"en": "Identity", "pl": "Tozsamosc"},
+      "name": {"en": "Identity", "pl": "Tożsamość"},
       "matrix": {
-        "being": ["sense_of_belonging", "self_esteem", "assertiveness"],
-        "having": ["symbols", "language", "values"],
-        "doing": ["commit_oneself", "grow"],
-        "interacting": ["social_rhythms"]
+        "being": ["sense_of_belonging", "consistency", "differentiation", "self_esteem", "assertiveness"],
+        "having": ["symbols", "language", "religions", "habits", "customs", "reference_groups", "sexuality", "values", "norms", "historic_memory", "work"],
+        "doing": ["commit_oneself", "integrate_oneself", "confront", "decide_on", "get_to_know_oneself", "recognize_oneself", "actualize_oneself", "grow"],
+        "interacting": ["social_rhythms", "everyday_settings", "settings_which_one_belongs_to", "maturation_stages"]
       }
     },
     {
       "id": "freedom",
-      "name": {"en": "Freedom", "pl": "Wolnosc"},
+      "name": {"en": "Freedom", "pl": "Wolność"},
       "matrix": {
-        "being": ["autonomy", "self_esteem", "assertiveness"],
+        "being": ["autonomy", "self_esteem", "determination", "passion", "assertiveness", "open_mindedness", "boldness", "rebelliousness", "tolerance"],
         "having": ["equal_rights"],
-        "doing": ["dissent", "choose", "commit_oneself"],
-        "interacting": ["temporal_plasticity"]
+        "doing": ["dissent", "choose", "be_different_from", "run_risks", "develop_awareness", "commit_oneself", "disobey"],
+        "interacting": ["temporal_plasticity", "spatial_plasticity"]
       }
     }
   ]

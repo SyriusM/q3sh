@@ -13,41 +13,116 @@
       "name": {"en": "Connection", "pl": "Więź / Połączenie"},
       "needs": [
         {"id": "acceptance", "en": "acceptance", "pl": "akceptacja"},
-        {"id": "affection", "en": "affection", "pl": "czełostć"},
+        {"id": "affection", "en": "affection", "pl": "czułość"},
         {"id": "appreciation", "en": "appreciation", "pl": "uznanie / docenienie"},
-        {"id": "belonging", "en": "belonging", "pl": "przyprrzynaleznosc"},
-        {"id": "cooperation", "en": "cooperation", "pl": "wspolpraca"},
+        {"id": "belonging", "en": "belonging", "pl": "przynależność"},
+        {"id": "cooperation", "en": "cooperation", "pl": "współpraca"},
         {"id": "communication", "en": "communication", "pl": "komunikacja"},
-        {"id": "closeness", "en": "closeness", "pl": "bliskosc"},
-        {"id": "community", "en": "community", "pl": "wspolnota"},
+        {"id": "closeness", "en": "closeness", "pl": "bliskość"},
+        {"id": "community", "en": "community", "pl": "wspólnota"},
         {"id": "companionship", "en": "companionship", "pl": "towarzystwo"},
-        {"id": "compassion", "en": "compassion", "pl": "wspolczenie"},
+        {"id": "compassion", "en": "compassion", "pl": "współczucie"},
+        {"id": "consideration", "en": "consideration", "pl": "uwzględnienie"},
+        {"id": "consistency", "en": "consistency", "pl": "spójność / stabilność"},
         {"id": "empathy", "en": "empathy", "pl": "empatia"},
-        {"id": "love", "en": "love", "pl": "milosc"},
-        {"id": "trust", "en": "trust", "pl": "zaufanie"}
+        {"id": "inclusion", "en": "inclusion", "pl": "włączenie"},
+        {"id": "intimacy", "en": "intimacy", "pl": "intymność"},
+        {"id": "love", "en": "love", "pl": "miłość"},
+        {"id": "mutuality", "en": "mutuality", "pl": "wzajemność"},
+        {"id": "nurturing", "en": "nurturing", "pl": "troska / opieka"},
+        {"id": "respect", "en": "respect / self-respect", "pl": "szacunek / szacunek do siebie"},
+        {"id": "safety_connection", "en": "safety", "pl": "bezpieczeństwo (w relacji)"},
+        {"id": "security", "en": "security", "pl": "poczucie bezpieczeństwa"},
+        {"id": "stability", "en": "stability", "pl": "stabilność"},
+        {"id": "support", "en": "support", "pl": "wsparcie"},
+        {"id": "to_know_and_be_known", "en": "to know and be known", "pl": "poznawać i być poznanym/ą"},
+        {"id": "to_see_and_be_seen", "en": "to see and be seen", "pl": "widzieć i być widzianym/ą"},
+        {"id": "to_understand_and_be_understood", "en": "to understand and be understood", "pl": "rozumieć i być rozumianym/ą"},
+        {"id": "trust", "en": "trust", "pl": "zaufanie"},
+        {"id": "warmth", "en": "warmth", "pl": "ciepło"}
+      ]
+    },
+    {
+      "id": "physical_wellbeing",
+      "name": {"en": "Physical Well-Being", "pl": "Dobrostan fizyczny"},
+      "needs": [
+        {"id": "air", "en": "air", "pl": "powietrze"},
+        {"id": "food", "en": "food", "pl": "pożywienie"},
+        {"id": "movement", "en": "movement / exercise", "pl": "ruch / aktywność fizyczna"},
+        {"id": "rest", "en": "rest / sleep", "pl": "odpoczynek / sen"},
+        {"id": "sexual_expression", "en": "sexual expression", "pl": "ekspresja seksualna"},
+        {"id": "safety_physical", "en": "safety", "pl": "bezpieczeństwo (fizyczne)"},
+        {"id": "shelter", "en": "shelter", "pl": "schronienie"},
+        {"id": "touch", "en": "touch", "pl": "dotyk"},
+        {"id": "water", "en": "water", "pl": "woda"}
+      ]
+    },
+    {
+      "id": "honesty",
+      "name": {"en": "Honesty", "pl": "Uczciwość / Szczerość"},
+      "needs": [
+        {"id": "authenticity", "en": "authenticity", "pl": "autentyczność"},
+        {"id": "integrity", "en": "integrity", "pl": "integralność / spójność osobowa"},
+        {"id": "presence", "en": "presence", "pl": "obecność"}
+      ]
+    },
+    {
+      "id": "play",
+      "name": {"en": "Play", "pl": "Zabawa"},
+      "needs": [
+        {"id": "joy", "en": "joy", "pl": "radość"},
+        {"id": "humor", "en": "humor", "pl": "humor"}
+      ]
+    },
+    {
+      "id": "peace",
+      "name": {"en": "Peace", "pl": "Pokój / Spokój"},
+      "needs": [
+        {"id": "beauty", "en": "beauty", "pl": "piękno"},
+        {"id": "communion", "en": "communion", "pl": "jedność / wspólnota duchowa"},
+        {"id": "ease", "en": "ease", "pl": "łatwość / swoboda"},
+        {"id": "equality", "en": "equality", "pl": "równość"},
+        {"id": "harmony", "en": "harmony", "pl": "harmonia"},
+        {"id": "inspiration", "en": "inspiration", "pl": "inspiracja"},
+        {"id": "order", "en": "order", "pl": "porządek"}
       ]
     },
     {
       "id": "autonomy",
       "name": {"en": "Autonomy", "pl": "Autonomia"},
       "needs": [
-        {"id": "choice", "en": "choice", "pl": "wybor"},
-        {"id": "freedom", "en": "freedom", "pl": "wolnosc"},
-        {"id": "independence", "en": "independence", "pl": "niezaleznosc"},
-        {"id": "space", "en": "space", "pl": "przestrzen"},
-        {"id": "spontaneity", "en": "spontaneity", "pl": "spontanicznosc"}
+        {"id": "choice", "en": "choice", "pl": "wybór"},
+        {"id": "freedom", "en": "freedom", "pl": "wolność"},
+        {"id": "independence", "en": "independence", "pl": "niezależność"},
+        {"id": "space", "en": "space", "pl": "przestrzeń"},
+        {"id": "spontaneity", "en": "spontaneity", "pl": "spontaniczność"}
       ]
     },
     {
       "id": "meaning",
       "name": {"en": "Meaning", "pl": "Sens / Znaczenie"},
       "needs": [
-        {"id": "contribution", "en": "contribution", "pl": "wklad"},
-        {"id": "creativity", "en": "creativity", "pl": "kreatywnosc"},
-        {"id": "growth", "en": "growth", "pl": "rozwoj"},
-        {"id": "hope", "en": "hope", "pl": "nadziesa"},
-        {"id": "learning", "en": "learning", "pl": "uczenie sie"},
-        {"id": "purpose", "en": "purpose", "pl": "cel / sens"}
+        {"id": "awareness", "en": "awareness", "pl": "świadomość"},
+        {"id": "celebration_of_life", "en": "celebration of life", "pl": "celebracja życia"},
+        {"id": "challenge", "en": "challenge", "pl": "wyzwanie"},
+        {"id": "clarity", "en": "clarity", "pl": "jasność"},
+        {"id": "competence", "en": "competence", "pl": "kompetencja"},
+        {"id": "consciousness", "en": "consciousness", "pl": "świadomość (głębsza)"},
+        {"id": "contribution", "en": "contribution", "pl": "wkład / kontrybucja"},
+        {"id": "creativity", "en": "creativity", "pl": "kreatywność"},
+        {"id": "discovery", "en": "discovery", "pl": "odkrywanie"},
+        {"id": "efficacy", "en": "efficacy", "pl": "skuteczność"},
+        {"id": "effectiveness", "en": "effectiveness", "pl": "efektywność"},
+        {"id": "growth", "en": "growth", "pl": "rozwój"},
+        {"id": "hope", "en": "hope", "pl": "nadzieja"},
+        {"id": "learning", "en": "learning", "pl": "uczenie się"},
+        {"id": "mourning", "en": "mourning", "pl": "żałoba / opłakiwanie"},
+        {"id": "participation", "en": "participation", "pl": "uczestnictwo"},
+        {"id": "purpose", "en": "purpose", "pl": "cel / sens"},
+        {"id": "self_expression", "en": "self-expression", "pl": "wyrażanie siebie"},
+        {"id": "stimulation", "en": "stimulation", "pl": "stymulacja"},
+        {"id": "to_matter", "en": "to matter", "pl": "znaczyć (być ważnym/ą)"},
+        {"id": "understanding_meaning", "en": "understanding", "pl": "zrozumienie"}
       ]
     }
   ]

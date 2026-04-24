@@ -1,21 +1,50 @@
 {
-  "description": "Cross-mapping: CNVC needs categories to Max-Neef fundamental needs.",
+  "$schema": "./schema/mapping.schema.json",
+  "description": "Cross-mapping: CNVC needs categories to Max-Neef fundamental needs. NOT 1:1 - some overlap, some orthogonal. Mapping is interpretive, not canonical.",
   "version": "1.0.0",
+  "caveat": "Max-Neef and Rosenberg come from different traditions. Max-Neef: economics/development. Rosenberg: communication/psychology. These frameworks complement each other but don't line up exactly. Use this mapping as a bridge, not as equivalence.",
   "mappings": [
     {
       "cnvc_category": "connection",
       "primary_maxneef": ["affection", "participation", "identity"],
-      "note": "Rosenberg's connection spreads across several Max-Neef needs."
+      "note": "Rosenberg's 'connection' spreads across several Max-Neef needs — affection (intimacy, love), participation (belonging, cooperation), identity (to know and be known)."
+    },
+    {
+      "cnvc_category": "physical_wellbeing",
+      "primary_maxneef": ["subsistence", "protection"],
+      "note": "Direct: food, water, shelter, safety."
+    },
+    {
+      "cnvc_category": "honesty",
+      "primary_maxneef": ["identity", "freedom"],
+      "note": "Authenticity and integrity overlap with Max-Neef's identity (self-consistency) and freedom (assertiveness)."
+    },
+    {
+      "cnvc_category": "play",
+      "primary_maxneef": ["leisure", "creation"],
+      "note": "Joy and humor map cleanly to Max-Neef's leisure."
+    },
+    {
+      "cnvc_category": "peace",
+      "primary_maxneef": ["leisure", "protection", "understanding"],
+      "note": "'Peace' in NVC blends inner tranquility (leisure) with harmony (understanding of self and others)."
     },
     {
       "cnvc_category": "autonomy",
       "primary_maxneef": ["freedom", "identity"],
-      "note": "NeaX-=direct mapping."
+      "note": "Near-direct mapping."
     },
     {
       "cnvc_category": "meaning",
       "primary_maxneef": ["understanding", "creation", "participation"],
-      "note": "Meaning covers purpose, growth, contribution."
+      "note": "'Meaning' covers purpose (participation), growth/learning (understanding), and contribution/self-expression (creation)."
     }
-  ]
+  ],
+  "unmapped_maxneef": {
+    "none": "All 9 Max-Neef needs are touched by at least one CNVC category."
+  },
+  "additional_notes": {
+    "max_neef_uniqueness": "Max-Neef adds dimensions CNVC doesn't: 'subsistence' as explicit bodily need, 'protection' as systemic/social safety, 'understanding' as epistemic growth separate from connection.",
+    "cnvc_uniqueness": "CNVC is more granular in interpersonal connection terms (to-know-and-be-known, empathy, mutuality) than Max-Neef's 'affection'."
+  }
 }

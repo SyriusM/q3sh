@@ -158,10 +158,30 @@ class Center9:
         vectors = np.stack([c.vector() for c in cubes])
         mean_state = vectors.mean(axis=0)
         C = coherence_matrix(cubes)
-        # Q jako średnia koherencja poza diagonalą (bez trywialnego 1.0)
+        # Q: ważona średnia — C[i,j]=cos*w → Q = Σ(cos*w) / Σw, jak w grid327
         off_diag = C[np.triu_indices(8, k=1)]
-        Q = float(np.clip((off_diag.mean() + 1) / 2, 0, 1))  # remap [-1,1] → [0,1]
+        w_sum = sum(neighborhood_weight(hamming_distance(i, j))
+                    for i, j in combinations(range(8), 2))
+        Q = float(np.clip((off_diag.sum() / w_sum + 1) / 2, 0, 1))
         return cls(mean_state=mean_state, coherence=C, Q=Q)
+
+    def density_matrix(self) -> np.ndarray:
+        """C → legalna macierz gęstości ρ (PSD, Tr=1). Kompatybilna z Qiskit/PennyLane."""
+        lam_min = np.linalg.eigvalsh(self.coherence).min()
+        C_psd = self.coherence + max(0.0, -lam_min + 1e-9) * np.eye(8)
+        return C_psd / np.trace(C_psd)
+
+    def quantum_purity(self) -> float:
+        """Tr(ρ²) ∈ [1/8, 1] — czystość kwantowa."""
+        rho = self.density_matrix()
+        return float(np.trace(rho @ rho).real)
+
+    def von_neumann_entropy(self) -> float:
+        """S(ρ) = -Tr(ρ log₂ ρ) w bitach. 0=czysty, 3.0=max mieszany."""
+        rho = self.density_matrix()
+        eigs = np.linalg.eigvalsh(rho)
+        eigs = eigs[eigs > 1e-15]
+        return float(-np.sum(eigs * np.log2(eigs)))
 
 
 # ════════════════════════════════════════════════════════════════════

@@ -14,7 +14,7 @@ Wywołanie:
 import sys, os, json, argparse
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
-from mempalace.q3sh_core import evaluate_action, VIRTUE_PROFILES, VIRTUE_NAMES
+from .core import evaluate_action, VIRTUE_PROFILES, VIRTUE_NAMES
 import numpy as np
 
 G = "\033[32m"; Y = "\033[33m"; R = "\033[31m"
@@ -257,8 +257,8 @@ def guard(action: str, agent: str = "goose", json_out: bool = False,
     elif result["verdict"] == "WEAK":
         # Quantum Pause — sieć oddycha przed decyzją
         try:
-            from mempalace.q3sh_meditate import quantum_pause
-            from mempalace.q3sh_core import Q3ShNetwork
+            from .meditate import quantum_pause
+            from .core import Q3ShNetwork
             _net = Q3ShNetwork()
             for _ in range(7): _net.step(lr=0.1)
             quantum_pause(_net, importance=0.6, verbose=True)
@@ -361,7 +361,7 @@ def dream(cycles: int = 7, alpha: float = 0.05):
     Czyta WEAK decyzje z trace, propaguje fraktalnie, zapisuje sny.
     """
     import json, time
-    from mempalace.q3sh_math import CubeState, Q3ShCore
+    from ._math import CubeState, Q3ShCore
 
     def norm(v):
         import numpy as np

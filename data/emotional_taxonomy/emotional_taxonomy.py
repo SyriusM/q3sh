@@ -36,9 +36,9 @@ class Taxonomy:
         d = Path(data_dir) if data_dir else DATA_DIR
         return cls(
             feelings=json.loads((d / "nvc_feelings.json").read_text(encoding="utf-8")),
-            needs=json.loads((k / "nvc_needs.json").read_text(encoding="utf-8")),
-            maxneef=json.loads((k / "maxneef_matrix.json").read_text(encoding="utf-8")),
-            mapping=json.loads((k / "mapping_nvc_maxneef.json").read_text(encoding="utf-8")),
+            needs=json.loads((d / "nvc_needs.json").read_text(encoding="utf-8")),
+            maxneef=json.loads((d / "maxneef_matrix.json").read_text(encoding="utf-8")),
+            mapping=json.loads((d / "mapping_nvc_maxneef.json").read_text(encoding="utf-8")),
         )
 
     def find_feeling(self, query: str, lang: str = "en") -> list[tuple[str, str, dict]]:
