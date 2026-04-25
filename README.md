@@ -91,4 +91,18 @@ Early exploration. Working components:
 
 ## License
 
-MIT — sovereign, local, yours.
+**[Sovereign Source License v1](LICENSE)** — MIT grant + binding sovereignty
+conditions in one document.
+
+This is **MIT-derived but NOT pure MIT** (and not OSI-approved). The license
+adds binding conditions: no covert telemetry, local by default, complete
+network-surface audit, no removing the sovereignty section. Forks may
+tighten these conditions but must not weaken them.
+
+Programmatic audit of the network surface:
+```bash
+python -m q3sh.sovereignty audit
+```
+
+Network surface upstream (full list): `localhost:11434` (Ollama). Zero
+external endpoints. See LICENSE §3 for the live audit table.

@@ -6,6 +6,10 @@ Przy OK    → przepuszcza, zapisuje ślad do MemPalace
 Przy WEAK  → pyta użytkownika, courage decyduje
 Przy REJECT → blokuje, deepseek wyjaśnia dlaczego
 
+NETWORK SURFACE: localhost:11434 (Ollama only). No external calls.
+SPDX-License-Identifier: LicenseRef-Sovereign-MIT-1.0
+See LICENSE §3 for the full network audit.
+
 Wywołanie:
   python -m mempalace.q3sh_guardian "opis akcji" [--agent goose]
   python -m mempalace.q3sh_guardian --stdin   (czyta z stdin)

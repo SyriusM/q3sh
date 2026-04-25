@@ -3,6 +3,10 @@ virtue_llm.py — Konwerter akcja→wektor cnót przez lokalny LLM (Ollama)
 
 Zastępuje keyword heurystykę w q3sh_core.evaluate_action().
 Używa qwen2.5-coder:7b (FAST) lub qwen3:14b (SMART) do ekstrakcji.
+
+NETWORK SURFACE: localhost:11434 (Ollama only). No external calls.
+SPDX-License-Identifier: LicenseRef-Sovereign-MIT-1.0
+See LICENSE §3 for the full network audit.
 """
 from __future__ import annotations
 import json

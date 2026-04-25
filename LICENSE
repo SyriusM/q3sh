@@ -1,0 +1,99 @@
+Sovereign Source License v1 (q3sh)
+Based on the MIT License, with binding sovereignty conditions.
+
+NOTE: This license is MIT-derived but adds binding conditions in §2 below.
+It is NOT pure MIT and is NOT an OSI-approved license. If you need a pure
+permissive license, do not use this software.
+
+Copyright (c) 2026 Mateusz (syriusm) and contributors
+
+================================================================================
+§1. PERMISSIONS (MIT grant)
+================================================================================
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to §1.1 (notice) and §2 (sovereignty conditions).
+
+§1.1. The above copyright notice and this permission notice (the entire
+LICENSE file, including §2) shall be included in all copies or substantial
+portions of the Software.
+
+================================================================================
+§2. SOVEREIGNTY CONDITIONS (binding)
+================================================================================
+
+Any distribution, fork, hosted instance, or derivative of the Software
+("Distribution") MUST comply with the following:
+
+§2.1. **No covert telemetry.** A Distribution MUST NOT transmit user data,
+usage statistics, or any identifying information to upstream maintainers or
+third parties without explicit, opt-in, disableable user configuration.
+"Opt-in" means OFF by default.
+
+§2.2. **Local by default.** The core logic of q3sh (virtue cores, bus,
+crystallization, Q computation, presence protocol) MUST function offline.
+Integrations with external services (cloud LLMs, remote APIs, hosted
+inference) MUST be opt-in and clearly marked in user-facing configuration.
+
+§2.3. **Right to know.** Any Distribution MUST document its complete
+network surface — every endpoint, every direction of data flow, every
+piece of user data transmitted. The audit in §3 below is the upstream's
+fulfilment of this duty; downstream Distributions MUST update or replace
+§3 to reflect their own network surface.
+
+§2.4. **Audit before public commit.** Public commits to the upstream
+repository MUST be reviewed for hardcoded personal data (identifiers,
+home paths, API keys, identities, natal data, biometric data).
+
+§2.5. **No removing this section.** A Distribution MUST NOT remove or
+materially weaken §2 (these sovereignty conditions). It MAY tighten them.
+A Distribution that removes §2 MUST also rename the project (it is no
+longer "q3sh" in the upstream sense) and remove all upstream branding.
+
+§2.6. **Right to fork honestly.** Subject to §2.5, anyone may fork. The
+upstream cannot retract granted permissions for past versions.
+
+================================================================================
+§3. NETWORK SURFACE AUDIT (upstream, as of 2026-04-25)
+================================================================================
+
+This is the complete list of network calls the upstream q3sh codebase makes:
+
+| Module                  | Endpoint                                | Direction      | User data sent | Opt-in flag |
+|-------------------------|-----------------------------------------|----------------|----------------|-------------|
+| `q3sh/virtue_llm.py`    | `http://localhost:11434/api/generate`   | local → local  | prompt text    | local Ollama, no external |
+| `q3sh/guardian.py`      | `http://localhost:11434/api/generate`   | local → local  | prompt text    | local Ollama, no external |
+
+Outside of localhost Ollama (which the user controls), upstream q3sh makes
+ZERO external network calls. No telemetry, no analytics, no cloud calls,
+no auto-update checks.
+
+To verify this claim programmatically: `python -m q3sh.sovereignty audit`
+
+================================================================================
+§4. DISCLAIMER (MIT)
+================================================================================
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+§5. RELATED PROJECTS
+================================================================================
+
+q3sh shares §2 sovereignty conditions with qsim
+(https://github.com/SyriusM/qsim). The two projects form one ecosystem.
+Changes to §2 in either project should be propagated to the other.
+
+================================================================================
+
+SPDX-License-Identifier: LicenseRef-Sovereign-MIT-1.0
